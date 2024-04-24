@@ -19,7 +19,7 @@ const App = () => {
           <input className="rounded border-2 pl-3 h-10 w-[90%] mt-2" type="text" name="" id="name" /> <br />
         </form>
         <div className="text-center">
-        <button className="bg-black text-white w-28  h-8 rounded  mt-10    ">Sign in</button> 
+        <button className="bg-black text-white w-28  h-8 rounded  mt-8">Sign in</button> 
       </div>
       <br />
       </div>
