@@ -1,5 +1,5 @@
 import React from "react";
-import { Login, Main, Navbar } from "./components";
+import { Login, Main, Navbar, Register } from "./components";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -9,6 +9,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );
