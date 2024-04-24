@@ -6,6 +6,7 @@ const App = () => {
       <div className="text-white text-2xl text-center">
         Welcome To 🎯 Daily Tasks
         <h3>Good Luck with Project</h3>
+        <p>Hello </p>
       </div>
     </div>
   );
