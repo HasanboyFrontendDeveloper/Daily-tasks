@@ -1,12 +1,11 @@
 import React from 'react'
-import 'boxicons'
-import './App.css';
-const Task = () => {
-  return (
-    <div>
 
-         <nav className="h-10 w-full mt-5 mb-5 "> 
-        <p className="float-left w-28 font-bold text-xl ">Daily Tasks</p> 
+export const Weekly = () => {
+  return (
+    <>
+    
+    <nav className="h-10 w-full mt-5 mb-5 "> 
+        <p className="float-left w-28 font-bold text-xl ">Weekly Tasks</p> 
         <button className="float-right w-10  h-10 rounded-full"><box-icon size="50px" name='user-circle' type='solid'  ></box-icon></button> 
       </nav>
       <hr />
@@ -82,9 +81,7 @@ const Task = () => {
           </div>
 
       </div>
-
-    </div>
+    
+    </>
   )
 }
-
-export default Task
