@@ -16,7 +16,6 @@ export const Weekly = () => {
   return (
     <>
       <div className="flex">
-
         <div className="w-[550px] h-[1000px] border-sky-700 border pt-10">
 
           <div className="flex ml-5">
