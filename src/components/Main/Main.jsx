@@ -1,5 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Main = () => {
   return (
@@ -11,7 +12,11 @@ const Main = () => {
           that make up daily life. Here are some tips. Find useful services and
           connect with others living with heart disease or stroke.{" "}
         </p>
-        <Button className="mt-5">Get-started</Button>
+
+        <Link to={"/register"}>
+          <Button className="mt-5">Get-started</Button>
+          
+        </Link>
       </div>
     </div>
   );

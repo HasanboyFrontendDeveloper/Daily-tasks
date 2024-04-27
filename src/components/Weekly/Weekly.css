@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+/* nav{
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 10px;
+} */
+.swiper{
+    color: black;
+    width: 1200px;
+    height: 100px;
+    text-align: center;  
+    cursor: pointer;
+}
