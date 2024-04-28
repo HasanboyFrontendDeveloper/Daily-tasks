@@ -1,24 +1,28 @@
-import React, { useState } from 'react'
-import Task from './components/Tasks/Task'
-import { Weekly } from './components/Weekly/Weekly'
+import React from 'react'
+// import Task from './components/Tasks/Task'
+// import { Weekly } from './components/Weekly/Weekly'
 import { Nav } from './components/Nav/Nav'
 import { Route, Routes } from 'react-router-dom'
+import { DashBoard } from './components/DashBoard/DashBoard'
+import { Spacial } from './components/Spacial/Spacial'
+import { Author } from './components/Author/Author'
+import { Failed } from './components/Failed/Failed'
+import { Succes } from './components/Succes/Succes'
 
 const App = () => {
 
-  const [navbar, setNavbar] = useState(false)
 
   return (
     <>
-      {/* <Task /> */}
-      {/* {navbar && <Nav />}
-      
-      <button onClick={() => setNavbar(prev => !prev)}>navbar</button> */}
       <Nav/>
+      {/* <DashBoard/> */}
       <Routes>
-        <Route path='/' element={<Task />} />
-        <Route path='/tasks' element={<Weekly />} />
-
+        <Route path='/' element={<DashBoard />} />
+        <Route path='/spacial' element={<Spacial />} />
+        <Route path='/email' element={<Author />} />
+        <Route path='/failed' element={<Failed />} />
+        <Route path='/succes' element={<Succes />} />
+        
       </Routes>
     </>
   )
