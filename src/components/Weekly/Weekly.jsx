@@ -62,6 +62,22 @@ export const Weekly = () => {
                 <p className=''>Monday</p>
                 <p>26.01</p>
               </SwiperSlide>
+              <SwiperSlide className='border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
+                <p className=''>Monday</p>
+                <p>26.01</p>
+              </SwiperSlide>
+              <SwiperSlide className='border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
+                <p className=''>Monday</p>
+                <p>26.01</p>
+              </SwiperSlide>
+              <SwiperSlide className='border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
+                <p className=''>Monday</p>
+                <p>26.01</p>
+              </SwiperSlide>
+              <SwiperSlide className='border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
+                <p className=''>Monday</p>
+                <p>26.01</p>
+              </SwiperSlide>
               <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
                 <p className=''>Monday</p>
                 <p>26.01</p>
