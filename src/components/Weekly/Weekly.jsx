@@ -1,139 +1,116 @@
-import React from 'react'
 import './Weekly.css';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-
+import { Menu, MenuHandler, MenuList, } from "@material-tailwind/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-
 import { Pagination, Navigation } from 'swiper/modules';
-export const Weekly = () => {
+import { TaskBoard } from '..';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { formatDate } from '../../helpers';
 
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+export const Weekly = () => {
+  const [days, setDays] = useState([])
+  const [tasksOfDay, setTasksOfDay] = useState([])
+  const [currentDate, setCurrentDate] = useState('')
+
+  const getDayOfWeek = (day) => {
+    const date = new Date(day)
+    const dayOfWeek = date.getDay();
+    const dayName = daysOfWeek[dayOfWeek]
+
+    return dayName
+  }
+
+  const { tasks } = useSelector(state => state.tasks)
+
+
+  const handleDaysOfWeek = () => {
+    const daysData = {};
+
+    tasks.forEach(task => {
+      const weekName = getDayOfWeek(task.date);
+      if (!daysData[weekName]) {
+        daysData[weekName] = { weekName, date: task.date };
+      }
+    });
+
+    setDays(Object.values(daysData));
+  };
+
+  const handleTasksOfDay = () => {
+    const filterData = tasks.filter(task => task.date === currentDate);
+    setTasksOfDay(filterData)
+  }
+
+  useEffect(() => {
+    // handleDaysOfWeek()
+  }, [tasks])
+
+  console.log(tasksOfDay);
+
+  useEffect(() => {
+    handleTasksOfDay()
+  }, [tasks, currentDate])
+
+  const getNextDaysOfWeek = () => {
+    const today = new Date();
+    const currentDayOfWeek = today.getDay();
+    const nextDays = [];
+
+    for (let i = 0; i < 7; i++) {
+      const nextDayIndex = (currentDayOfWeek + i) % 7;
+      const nextDate = new Date(today);
+      nextDate.setDate(today.getDate() + i);
+
+      const formattedDate = formatDate(nextDate)
+      nextDays.push({ weekName: daysOfWeek[nextDayIndex], date: formattedDate });
+    }
+
+    setDays(nextDays)
+  };
+
+
+  useEffect(() => {
+    const date = new Date();
+    const today = formatDate(date)
+
+    setCurrentDate(today)
+    getNextDaysOfWeek()
+  }, [])
 
 
   return (
     <>
-      <div className="flex">
+      {/* <div className="flex"> */}
+      <div className=" w-[100%]  ">
 
-        <div className="w-[550px] h-[1000px] border-sky-700 border pt-10">
-
-          <div className="flex ml-5">
-            <button className=""><box-icon size="60px" name='user-circle' type='solid'  ></box-icon></button>
-            <div className="ml-6">
-              <p className="text-[25px]">User name</p>
-              <p>example@gmail.com</p>
-            </div>
-          </div>
-          <br />
-          <div className="border-sky-700  bg-blue-700 text-white w-[100%] h-[45px] pt-2 text-[18px] font-[500] pl-5  border-t">
-            <p>Today's challanges</p>
-          </div>
-          <div className="border-sky-700 w-[100%] h-[45px] pt-2 text-[18px] font-[500] pl-5  border-t hover:bg-blue-700 hover:text-white hover:border-white">
-            <p>Today's tasks</p>
-          </div>
-
-          <div className="border-sky-700 w-[100%] h-[45px] pt-2 text-[18px] font-[500] pl-5  border-t hover:bg-blue-700 hover:text-white hover:border-white">
-            <p>Monthly tasks</p>
-          </div>
-
-          <div className="border-sky-700 w-[100%] h-[45px] pt-2 text-[18px] font-[500] pl-5  border-t hover:bg-blue-700 hover:text-white hover:border-white border-b">
-            <p>+ add spacial day</p>
-          </div>
-
+        <div className="w-[100%]  text-white items-center justify-center flex">
+          {/* <p className="text-[18px]">Today 25.04.2024</p> */}
+          <Swiper
+            slidesPerView={7}
+            spaceBetween={0}
+            navigation={true}
+            modules={[Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {days.map((item) => (
+              <SwiperSlide className={`${item.date === currentDate && 'bg-blue-700 text-white'} border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white`}
+                onClick={() => setCurrentDate(item.date)}
+              >
+                <p className=''>{item.weekName}</p>
+                <p>{item.date}</p>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
-
-        <div className=" w-[100%]  ">
-
-          <div className="w-[1200px]  text-white items-center justify-center flex">
-            {/* <p className="text-[18px]">Today 25.04.2024</p> */}
-            <Swiper
-              // pagination={{
-              //   type: 'fraction',
-              // }}
-              slidesPerView={7}
-              spaceBetween={0}
-              navigation={true}
-              modules={[Pagination, Navigation]}
-              className="mySwiper"
-            >
-              <SwiperSlide className='border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-              <SwiperSlide className='border-r-2 border-b  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white'>
-                <p className=''>Monday</p>
-                <p>26.01</p>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-
-          <div className="mt-5 ml-5 flex ">
-
-            <div className="w-[340px] border border-sky-700 pl-3 pt-2 rounded-[10px] pb-3 m-2 h-[50%] hover:shadow-indigo-500/40 hover:shadow-lg">
-              <div className="w-[100%] h-10">
-                <p className="float-left text-[22px] font-[500]">To Do</p>
-                <button className=" float-right mr-1"><box-icon color='blue' name='dots-vertical-rounded'></box-icon></button>
-              </div>
-
-              <div className="w-[97%] pl-2 pt-1 border h-[35px] rounded ">
-                <p className="float-left ">Need to go market</p>
-                <button className=" float-right"><box-icon size='20px' color='blue' name='dots-vertical-rounded'></box-icon></button>
-              </div>
-              <button className="mt-3">+ add tasks</button>
-            </div>
-
-            <div className="w-[340px] border border-sky-700 pl-3 pt-2 rounded-[10px] pb-3 m-2 h-[50%] hover:shadow-indigo-500/40 hover:shadow-lg">
-              <div className="w-[100%] h-10">
-                <p className="float-left text-[22px] font-[500]">In progress</p>
-                <button className=" float-right mr-1"><box-icon color='blue' name='dots-vertical-rounded'></box-icon></button>
-              </div>
-            </div>
-
-            <div className="w-[340px] border border-sky-700 pl-3 pt-2 rounded-[10px] pb-3 m-2 h-[50%] hover:shadow-indigo-500/40 hover:shadow-lg">
-              <div className="w-[100%] h-10">
-                <p className="float-left text-[22px] font-[500]">Done</p>
-                <button className=" float-right mr-1"><box-icon color='blue' name='dots-vertical-rounded'></box-icon></button>
-              </div>
-            </div>
-
-            {/* <button>
-              <Link to='/task'></Link>
-            </button> */}
-          </div>
-        </div>
-
+        {tasksOfDay && <TaskBoard tasks={tasksOfDay} currentDate={currentDate} />}
       </div>
-
     </>
   )
 }
