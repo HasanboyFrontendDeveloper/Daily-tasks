@@ -8,7 +8,8 @@ const Register = () => {
   const [openModal, setOpenModal] = useState(false)
   const [value, setValue] = useState({
     name: "",
-    email: ''
+    email: '',
+    password: ''
   })
 
   const dispatch = useDispatch()
@@ -58,6 +59,21 @@ const Register = () => {
               id="email"
               value={value.email}
               onChange={e => setValue(prev => ({ ...prev, email: e.target.value }))}
+              required
+            />
+            <br />
+            <br />
+            <label className="" htmlFor="email">
+              Your Password
+            </label>
+            <br />
+            <input
+              className="rounded border-2 pl-3 h-10 w-[90%] mt-1"
+              type="password"
+              name=""
+              id="email"
+              value={value.password}
+              onChange={e => setValue(prev => ({ ...prev, password: e.target.value }))}
               required
             />
             <br />

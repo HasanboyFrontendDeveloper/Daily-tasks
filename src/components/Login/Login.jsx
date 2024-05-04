@@ -1,7 +1,13 @@
 import { Button } from "@material-tailwind/react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const App = () => {
+  const [value, setValue] = useState({
+    email: '',
+    password: ''
+  })
+
   return (
     <>
       <div className="flex items-center justify-center">
@@ -11,16 +17,34 @@ const App = () => {
           <form action="" className="pl-[2%]">
             {" "}
             <br />
-            <label className="" htmlFor="name">
+            <label className="" htmlFor="email">
               Your email
             </label>{" "}
             <br />
             <input
               className="rounded border-2 pl-3 h-10 w-[90%] mt-2"
-              type="text"
+              type="email"
               name=""
-              id="name"
+              id="email"
+              value={value.email}
+              onChange={e => setValue(prev => ({ ...prev, email: e.target.value }))}
+              required
             />{" "}
+            <br />
+            <br />
+            <label className="" htmlFor="password">
+              Your Password
+            </label>
+            <br />
+            <input
+              className="rounded border-2 pl-3 h-10 w-[90%] mt-1"
+              type="password"
+              name=""
+              id="password"
+              value={value.password}
+              onChange={e => setValue(prev => ({ ...prev, password: e.target.value }))}
+              required
+            />
             <br />
             <h4 className="mt-3">You do not have account? <Link to={'/register'} className="text-blue-700">Register here</Link></h4>
             <div className="text-center">
