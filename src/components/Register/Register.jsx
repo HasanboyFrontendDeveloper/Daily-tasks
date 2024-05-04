@@ -12,6 +12,7 @@ const Register = () => {
     email: '',
     password: ''
   })
+  const [showWrongMsg, setShowWrongMsg] = useState('')
 
   const dispatch = useDispatch()
 
@@ -26,8 +27,10 @@ const Register = () => {
         dispatch(signUserSuccess(res))
       }
       setOpenModal(true)
+      showWrongMsg('')
     } catch (error) {
       dispatch(signUserFailure(error.message))
+      setShowWrongMsg("Email or Password is Wrong")
       console.log(error);
     }
 
@@ -85,7 +88,7 @@ const Register = () => {
               required
             />
             <br />
-
+              <p className="text-center text-red-700">{showWrongMsg}</p>
             <div className="text-center">
               <Button type="submit" className="mt-8">Sign up</Button>
             </div>

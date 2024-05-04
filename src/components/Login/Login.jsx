@@ -10,6 +10,7 @@ const App = () => {
     email: '',
     password: ''
   })
+  const [showWrongMsg, setShowWrongMsg] = useState('')
 
   const dispatch = useDispatch()
 
@@ -19,9 +20,10 @@ const App = () => {
     try {
       const res = await AuthServise.userLogin(value)
       dispatch(signUserSuccess(res))
+      setShowWrongMsg('')
     } catch (error) {
       dispatch(signUserFailure(error.message))
-      console.log(error);
+      setShowWrongMsg('Email or Password is Wrong')
     }
 
   }
@@ -63,6 +65,8 @@ const App = () => {
               onChange={e => setValue(prev => ({ ...prev, password: e.target.value }))}
               required
             />
+            <br />
+            <p className="text-center text-red-700 mt-3">{showWrongMsg}</p>
             <br />
             <h4 className="mt-3">You do not have account? <Link to={'/register'} className="text-blue-700">Register here</Link></h4>
             <div className="text-center">
