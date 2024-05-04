@@ -7,38 +7,41 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { TaskBoard } from '..';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { formatDate } from '../../helpers';
+import { formatDate, formatMonth } from '../../helpers';
 
+const monthsOfYear = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+]
 
 const Monthly = () => {
-    const [days, setDays] = useState([])
+    const [months, setMonths] = useState([])
     const [currentDate, setCurrentDate] = useState('')
     const [tasksOfDay, setTasksOfDay] = useState([])
 
     const { tasks } = useSelector(state => state.tasks)
 
-
-    const handleDays = () => {
-        const daysData = []
-        tasks.map(task => {
-          
-          if (!daysData.includes(task.date)) {
-            daysData.push(task.date)
-          }
-        })
-        const sortData = daysData.sort()
-        setDays(sortData)
-    };
-
-    const handleTasksOfDay = () => {
-        const filterData = tasks.filter(task => task.date === currentDate);
+    const getMonthsOfYear = () => {
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        const allMonths = [];
+    
+        for (let i = 0; i < monthsOfYear.length; i++) {
+    
+        //   const formattedDate = formatDate(nextDate)
+          allMonths.push({ monthName: monthsOfYear[i], date: `${currentYear}-${i >= 9 ? i+1 : `0${i+1}`}` });
+        }
+        setMonths(allMonths)
+      };
+    
+      const handleTasksOfDay = () => {
+        const filterData = tasks.filter(task => task.date.includes(currentDate));
         setTasksOfDay(filterData)
-    }
-
-
-    useEffect(() => {
-        handleDays()
-    }, [tasks])
+      }
+    
+      useEffect(() => {
+        getMonthsOfYear()
+      }, [tasks])
 
 
     useEffect(() => {
@@ -48,12 +51,12 @@ const Monthly = () => {
 
     useEffect(() => {
         const date = new Date();
-        const today = formatDate(date)
+        const today = formatMonth(date)
 
         setCurrentDate(today)
     }, [])
 
-    console.log(currentDate);
+    console.log(months);
 
     return (
         <>
@@ -68,12 +71,13 @@ const Monthly = () => {
                         modules={[Pagination, Navigation]}
                         className="mySwiper"
                     >
-                        {days.map(day => (
+                        {months.map(month => (
 
-                            <SwiperSlide className={`${day === currentDate && 'bg-blue-700 text-white'} border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white`}
-                                onClick={() => setCurrentDate(day)}
+                            <SwiperSlide className={`${month.date === currentDate && 'bg-blue-700 text-white'} border-r-2 border-b border-l  border-sky-700 pt-5 hover:bg-blue-700 hover:text-white hover:border-white`}
+                                onClick={() => setCurrentDate(month.date)}
                             >
-                                <p>{day}</p>
+                                <p>{month.monthName}</p>
+                                <p>{month.date}</p>
                             </SwiperSlide>
 
                         ))}

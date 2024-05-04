@@ -1,4 +1,4 @@
-const Succes = () => {
+const Succes = ({setOpenModal}) => {
     return (
         <>
             <div className="bg-gray-500 w-[100%] h-[3000px] opacity-30 fixed top-0 mb-96 z-0"></div>
@@ -10,7 +10,7 @@ const Succes = () => {
                 </div>
                 <br />
                 <p className=''>We send email to your email. Please check your email!</p> <br />
-                <button className='bg-black w-[150px] h-8 rounded-md text-white hover:scale-[1.07] transition hover:bg-gray-800'>Ok</button>
+                <button onClick={() => setOpenModal(false)} className='bg-black w-[150px] h-8 rounded-md text-white hover:scale-[1.07] transition hover:bg-gray-800'>Ok</button>
 
 
                 <br /><br />

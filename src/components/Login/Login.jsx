@@ -22,12 +22,14 @@ const App = () => {
               id="name"
             />{" "}
             <br />
+            <h4 className="mt-3">You do not have account? <Link to={'/register'} className="text-blue-700">Register here</Link></h4>
+            <div className="text-center">
+              <Button className="mt-8">
+                <Link to={"/tasks"}>Sign-In</Link>
+              </Button>
+            </div>
+
           </form>
-          <div className="text-center">
-            <Button className="mt-8">
-              <Link to={"/tasks"}>Sign-In</Link>
-            </Button>
-          </div>
           <br />
         </div>
       </div>

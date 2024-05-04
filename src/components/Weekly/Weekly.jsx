@@ -62,7 +62,7 @@ export const Weekly = () => {
     const currentDayOfWeek = today.getDay();
     const nextDays = [];
 
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 31; i++) {
       const nextDayIndex = (currentDayOfWeek + i) % 7;
       const nextDate = new Date(today);
       nextDate.setDate(today.getDate() + i);
@@ -70,7 +70,6 @@ export const Weekly = () => {
       const formattedDate = formatDate(nextDate)
       nextDays.push({ weekName: daysOfWeek[nextDayIndex], date: formattedDate });
     }
-
     setDays(nextDays)
   };
 

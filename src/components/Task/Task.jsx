@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { TaskBoard } from '../';
 import { useEffect, useState } from 'react';
-import { updateTasks } from '../../slice/tasks';
+import { formatDate } from '../../helpers';
 
 
 const Task = () => {
@@ -11,11 +11,7 @@ const Task = () => {
 
 
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-
-  const currentDate = `${month.toString().padStart(2, '0')}.${day.toString().padStart(2, '0')}.${year}`;
+  const currentDate = formatDate(today)
 
   const filterTasks = () => {
     const filteredTasks = tasks.filter(taks => taks.date === currentDate)

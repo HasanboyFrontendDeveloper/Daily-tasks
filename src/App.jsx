@@ -12,7 +12,7 @@ const App = () => {
     <>
       <Navbar />
       <Routes>
-        <Route path="/wecome" element={isLoggedIn ? <Navigate to={'/'} /> : <Main />} />
+        <Route path="/welcome" element={isLoggedIn ? <Navigate to={'/'} /> : <Main />} />
         <Route path="/login" element={isLoggedIn ? <Navigate to={'/'} /> : <Login />} />
         <Route path="/register" element={isLoggedIn ? <Navigate to={'/'} /> : <Register />} />
         <Route path='/' element={isLoggedIn ? <DashBoard /> : <Navigate to={'/wecome'} />} />
