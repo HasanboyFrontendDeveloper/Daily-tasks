@@ -1,6 +1,9 @@
 import { Button } from "@material-tailwind/react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { signUserFailure, signUserStart, signUserSuccess } from "../../slice/auth";
+import AuthServise from "../../service/auth";
 
 const App = () => {
   const [value, setValue] = useState({
@@ -8,13 +11,28 @@ const App = () => {
     password: ''
   })
 
+  const dispatch = useDispatch()
+
+  const submitHandler = async (e) => {
+    dispatch(signUserStart())
+    e.preventDefault()
+    try {
+      const res = await AuthServise.userLogin(value)
+      dispatch(signUserSuccess(res))
+    } catch (error) {
+      dispatch(signUserFailure(error.message))
+      console.log(error);
+    }
+
+  }
+
   return (
     <>
       <div className="flex items-center justify-center">
         <div className="border-2  w-[75%] lg:w-[35%] md:w-[50%] mt-[100px] pl-4 pt-3  rounded  ">
           <p className="text-[20px] f-bold font-bold ">Sign in</p>
           <p>Nice to meet you! Enter your email to login</p>
-          <form action="" className="pl-[2%]">
+          <form onSubmit={submitHandler} className="pl-[2%]">
             {" "}
             <br />
             <label className="" htmlFor="email">
@@ -48,8 +66,8 @@ const App = () => {
             <br />
             <h4 className="mt-3">You do not have account? <Link to={'/register'} className="text-blue-700">Register here</Link></h4>
             <div className="text-center">
-              <Button className="mt-8">
-                <Link to={"/tasks"}>Sign-In</Link>
+              <Button type="submit" className="mt-8">
+                Sign-In
               </Button>
             </div>
 

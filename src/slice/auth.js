@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { setItem } from "../helpers/localstorage";
 
 const initialState = {
   isLoading: false,
-  isLoggedIn: true,
+  isLoggedIn: false,
   error: null,
   user: null,
+  token: null,
 };
 
 export const authSlice = createSlice({
@@ -17,7 +19,9 @@ export const authSlice = createSlice({
     signUserSuccess: (state, action) => {
       state.isLoading = true;
       state.isLoggedIn = true;
-      state.user = action.payload;
+      state.user = action.payload.user;
+      state.token = action.payload.token
+      setItem('token', action.payload.token)
     },
     signUserFailure: (state, action) => {
       state.isLoading = false;
@@ -31,7 +35,11 @@ export const authSlice = createSlice({
   },
 });
 
-export const { signUserStart, signUserSuccess, signUserFailure, signOut } =
-  authSlice.actions;
+export const {
+  signUserStart,
+  signUserSuccess,
+  signUserFailure,
+  signOut,
+} = authSlice.actions;
 
 export default authSlice.reducer;

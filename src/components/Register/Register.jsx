@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Succes from "../Succes/Succes";
 import { useDispatch } from "react-redux";
 import { signUserFailure, signUserStart, signUserSuccess } from "../../slice/auth";
+import AuthServise from "../../service/auth";
 
 const Register = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -14,17 +15,24 @@ const Register = () => {
 
   const dispatch = useDispatch()
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     dispatch(signUserStart())
     e.preventDefault()
     try {
-      dispatch(signUserSuccess(value))
+      const res = await AuthServise.userRegister(value)
+      console.log(res);
+      if (res?.status === 200) {
+        const res = await AuthServise.userLogin({email: value.email, password: value.password})
+        dispatch(signUserSuccess(res))
+      }
       setOpenModal(true)
     } catch (error) {
       dispatch(signUserFailure(error.message))
+      console.log(error);
     }
 
   }
+
   return (
     <>
       {openModal && <Succes setOpenModal={setOpenModal} />}
