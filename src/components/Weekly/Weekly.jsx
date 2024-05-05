@@ -1,7 +1,6 @@
 import './Weekly.css';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Menu, MenuHandler, MenuList, } from "@material-tailwind/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -29,29 +28,11 @@ export const Weekly = () => {
   const { tasks } = useSelector(state => state.tasks)
 
 
-  const handleDaysOfWeek = () => {
-    const daysData = {};
-
-    tasks.forEach(task => {
-      const weekName = getDayOfWeek(task.date);
-      if (!daysData[weekName]) {
-        daysData[weekName] = { weekName, date: task.date };
-      }
-    });
-
-    setDays(Object.values(daysData));
-  };
 
   const handleTasksOfDay = () => {
     const filterData = tasks.filter(task => task.date === currentDate);
     setTasksOfDay(filterData)
   }
-
-  useEffect(() => {
-    // handleDaysOfWeek()
-  }, [tasks])
-
-  console.log(tasksOfDay);
 
   useEffect(() => {
     handleTasksOfDay()
@@ -85,11 +66,9 @@ export const Weekly = () => {
 
   return (
     <>
-      {/* <div className="flex"> */}
       <div className=" w-[100%]  ">
 
         <div className="w-[100%]  text-white items-center justify-center flex">
-          {/* <p className="text-[18px]">Today 25.04.2024</p> */}
           <Swiper
             slidesPerView={7}
             spaceBetween={0}

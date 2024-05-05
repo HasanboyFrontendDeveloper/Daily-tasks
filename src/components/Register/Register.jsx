@@ -1,11 +1,9 @@
 import { Button } from "@material-tailwind/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import Succes from "../Succes/Succes";
-import { useDispatch } from "react-redux";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../firebase/config";
 import { useNavigate } from "react-router-dom";
-import { getUser } from "../../slice/tasks";
 import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
@@ -17,28 +15,7 @@ const Register = () => {
   })
   const [showWrongMsg, setShowWrongMsg] = useState('')
 
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-
-  // const submitHandler = async (e) => {
-  //   dispatch(signUserStart())
-  //   e.preventDefault()
-  //   try {
-  //     const res = await AuthServise.userRegister(value)
-  //     console.log(res);
-  //     if (res?.status === 200) {
-  //       const res = await AuthServise.userLogin({email: value.email, password: value.password})
-  //       dispatch(signUserSuccess(res))
-  //     }
-  //     setOpenModal(true)
-  //     showWrongMsg('')
-  //   } catch (error) {
-  //     dispatch(signUserFailure(error.message))
-  //     setShowWrongMsg("Email or Password is Wrong")
-  //     console.log(error);
-  //   }
-
-  // }
 
 
   const submitHandler = async (e) => {

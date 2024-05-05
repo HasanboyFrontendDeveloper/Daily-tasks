@@ -1,5 +1,4 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Menu, MenuHandler, MenuList, } from "@material-tailwind/react";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -7,7 +6,7 @@ import { Pagination, Navigation } from 'swiper/modules';
 import { TaskBoard } from '..';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { formatDate, formatMonth } from '../../helpers';
+import { formatMonth } from '../../helpers';
 
 const monthsOfYear = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -28,7 +27,6 @@ const Monthly = () => {
     
         for (let i = 0; i < monthsOfYear.length; i++) {
     
-        //   const formattedDate = formatDate(nextDate)
           allMonths.push({ monthName: monthsOfYear[i], date: `${currentYear}-${i >= 9 ? i+1 : `0${i+1}`}` });
         }
         setMonths(allMonths)
@@ -56,11 +54,8 @@ const Monthly = () => {
         setCurrentDate(today)
     }, [])
 
-    console.log(months);
-
     return (
         <>
-            {/* <div className="flex"> */}
             <div className=" w-[100%]  ">
 
                 <div className="w-[100%]  text-white items-center justify-center flex">

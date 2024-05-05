@@ -1,7 +1,6 @@
 import { Button } from "@material-tailwind/react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/config";
 
@@ -12,72 +11,8 @@ const App = () => {
   })
   const [showWrongMsg, setShowWrongMsg] = useState('')
 
-  const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { search } = useLocation()
 
-
-  // const submitHandler = async (e) => {
-  //   dispatch(signUserStart())
-  //   e.preventDefault()
-  //   try {
-  //     const res = await AuthServise.userLogin(value)
-  //     dispatch(signUserSuccess(res))
-  //     setShowWrongMsg('')
-  //   } catch (error) {
-  //     dispatch(signUserFailure(error.message))
-  //     setShowWrongMsg('Email or Password is Wrong')
-  //   }
-
-  // }
-
-  // const submitHandler = (e) => {
-  //   e.preventDefault()
-  //   sendSignInLinkToEmail(auth, value.email, {
-  //     url: 'http://localhost:5173/',
-  //     handleCodeInApp: true,
-  //   })
-  //     .then(() => {
-  //       // The link was successfully sent. Inform the user.
-  //       // Save the email locally so you don't need to ask the user for it again
-  //       // if they open the link on the same device.
-  //       setItem('email', value.email);
-  //       alert('success');
-  //       // ...
-  //     })
-  //     .catch((error) => {
-  //       const errorCode = error.code;
-  //       const errorMessage = error.message;
-  //       console.log(errorCode);
-  //       console.error(error);
-  //     });
-  // }
-
-  // useEffect(() => {
-  //   if (auth?.currentUser) {
-  //     navigate('/')
-  //   } else {
-  //     console.log('auth error');
-  //     if (isSignInWithEmailLink(auth, window.location.href)) {
-  //       let email = getItem('email')
-  //       if (!email) {
-  //         email = window.prompt('Please provide your email')
-  //       }
-  //       signInWithEmailLink(auth, getItem('email'), window.location.href)
-  //         .then((result) => {
-  //           console.log(result);
-  //           removeItem('email')
-  //           navigate('/')
-  //         })
-  //         .catch((error) => {
-  //           console.error(error);
-  //           navigate('/login')
-  //         })
-  //     } else {
-  //       console.log('enter email currectly');
-  //     }
-  //   }
-  // }, [auth?.currentUser, search, navigate])
 
   const submitHandler = async (e) => {
     e.preventDefault();

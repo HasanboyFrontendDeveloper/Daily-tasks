@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Spacial, Monthly, Task, Weekly } from '../'
-import { auth, db } from '../../firebase/config'
-import { useDispatch, useSelector } from 'react-redux'
-import { doc, getDoc } from 'firebase/firestore'
-import { getTasksFailure, getTasksStart, getTasksSuccess, getUser } from '../../slice/tasks'
+import { useSelector } from 'react-redux'
 
 
 const DashBoard = () => {
