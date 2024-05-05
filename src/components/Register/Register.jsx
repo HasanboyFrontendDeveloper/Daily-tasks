@@ -2,8 +2,11 @@ import { Button } from "@material-tailwind/react";
 import React, { useState } from "react";
 import Succes from "../Succes/Succes";
 import { useDispatch } from "react-redux";
-import { signUserFailure, signUserStart, signUserSuccess } from "../../slice/auth";
-import AuthServise from "../../service/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, db } from "../../firebase/config";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../slice/tasks";
+import { doc, setDoc } from "firebase/firestore";
 
 const Register = () => {
   const [openModal, setOpenModal] = useState(false)
@@ -15,25 +18,44 @@ const Register = () => {
   const [showWrongMsg, setShowWrongMsg] = useState('')
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  // const submitHandler = async (e) => {
+  //   dispatch(signUserStart())
+  //   e.preventDefault()
+  //   try {
+  //     const res = await AuthServise.userRegister(value)
+  //     console.log(res);
+  //     if (res?.status === 200) {
+  //       const res = await AuthServise.userLogin({email: value.email, password: value.password})
+  //       dispatch(signUserSuccess(res))
+  //     }
+  //     setOpenModal(true)
+  //     showWrongMsg('')
+  //   } catch (error) {
+  //     dispatch(signUserFailure(error.message))
+  //     setShowWrongMsg("Email or Password is Wrong")
+  //     console.log(error);
+  //   }
+
+  // }
+
 
   const submitHandler = async (e) => {
-    dispatch(signUserStart())
-    e.preventDefault()
-    try {
-      const res = await AuthServise.userRegister(value)
-      console.log(res);
-      if (res?.status === 200) {
-        const res = await AuthServise.userLogin({email: value.email, password: value.password})
-        dispatch(signUserSuccess(res))
-      }
-      setOpenModal(true)
-      showWrongMsg('')
-    } catch (error) {
-      dispatch(signUserFailure(error.message))
-      setShowWrongMsg("Email or Password is Wrong")
-      console.log(error);
+    e.preventDefault();
+    const email = value.email
+    const userRef = doc(db, 'users', email)
+    if (value.password.length >= 8) {
+      await createUserWithEmailAndPassword(auth, value.email, value.password).then(async () => {
+        const user = { username: value.name, email: value.email, tasks: [] }
+        await setDoc(userRef, user)
+        navigate('/')
+      }).catch(() => {
+        setShowWrongMsg("This email already exists.")
+      })
+    }else{
+      setShowWrongMsg("Password should be at least 8 characters")
     }
-
   }
 
   return (
@@ -88,7 +110,7 @@ const Register = () => {
               required
             />
             <br />
-              <p className="text-center text-red-700">{showWrongMsg}</p>
+            <p className="text-center text-red-700">{showWrongMsg}</p>
             <div className="text-center">
               <Button type="submit" className="mt-8">Sign up</Button>
             </div>

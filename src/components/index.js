@@ -12,3 +12,4 @@ export { default as Failed } from "./Failed/Failed";
 export { default as Author } from "./Author/Author";
 export { default as Dropdown } from "./Dropdown/Dropdown";
 export { default as TaskBoard } from "./TaskBoard/TaskBoard";
+export { default as Loader } from "./Loader/Loader";

@@ -1,6 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Spacial, Monthly, Task, Weekly } from '../'
-import { useSelector } from 'react-redux'
+import { auth, db } from '../../firebase/config'
+import { useDispatch, useSelector } from 'react-redux'
+import { doc, getDoc } from 'firebase/firestore'
+import { getTasksFailure, getTasksStart, getTasksSuccess, getUser } from '../../slice/tasks'
 
 
 const DashBoard = () => {
@@ -8,7 +11,9 @@ const DashBoard = () => {
     const [togglePage, setTogglePage] = useState('task')
     const [showSpacial, setShowSpacial] = useState(false)
 
-    const {user} = useSelector(state => state.auth)
+    const { user } = useSelector(state => state.tasks)
+
+
 
     return (
         <>
@@ -19,8 +24,8 @@ const DashBoard = () => {
                     <div className="flex ml-5">
                         <button className=""><box-icon size="60px" name='user-circle' type='solid'  ></box-icon></button>
                         <div className="ml-6">
-                            <p className="text-[25px]"> {user?.name ? user.name : 'User name'}</p>
-                            <p>{user?.email ? user.email : 'example@gmail.com'}</p>
+                            <p className="text-[25px]"> {user.username}</p>
+                            <p>{user.email}</p>
                         </div>
                     </div>
                     <br />

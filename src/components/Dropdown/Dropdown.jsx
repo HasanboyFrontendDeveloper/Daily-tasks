@@ -2,16 +2,23 @@ import { Menu, MenuHandler, MenuList } from "@material-tailwind/react"
 import 'boxicons'
 import { useDispatch, useSelector } from "react-redux"
 import { updateTasks } from "../../slice/tasks"
+import { db } from "../../firebase/config"
+import { doc, updateDoc } from "firebase/firestore"
 
 const Dropdown = ({ task }) => {
 
-    const { tasks } = useSelector(state => state.tasks)
+    const { tasks, user } = useSelector(state => state.tasks)
 
     const dispatch = useDispatch()
 
-    const deleteHandler = () => {
+    const deleteHandler = async () => {
+        const email = user?.email
+        const userRef = doc(db, 'users', email)
+
         const filterData = tasks.filter(item => item.id !== task.id);
+        await updateDoc(userRef, { tasks: filterData })
         dispatch(updateTasks(filterData))
+
     }
 
     return (

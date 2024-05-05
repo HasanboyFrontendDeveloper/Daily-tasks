@@ -4,12 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateTasks } from "../../slice/tasks";
 import { useState } from "react";
 import { v4 } from "uuid";
+import { db } from "../../firebase/config";
+import { doc, updateDoc } from "firebase/firestore";
 
 
 const TaskBoard = ({ tasks, currentDate }) => {
     const [taskTitle, setTaskTitle] = useState('')
 
     const state = useSelector(state => state.tasks)
+
+    const email = state?.user?.email
 
     const dispatch = useDispatch()
 
@@ -46,7 +50,7 @@ const TaskBoard = ({ tasks, currentDate }) => {
         evt.dataTransfer.dropEffect = "move";
     };
 
-    const onDrop = (evt, status) => {
+    const onDrop = async (evt, status) => {
         evt.preventDefault();
         evt.currentTarget.classList.remove("dragged-over");
         let data = evt.dataTransfer.getData("text/plain");
@@ -58,6 +62,9 @@ const TaskBoard = ({ tasks, currentDate }) => {
             return task;
         });
         dispatch(updateTasks(updated));
+        const userRef = doc(db, 'users', email)
+
+        await updateDoc(userRef, { tasks: updated })
     };
 
 
@@ -65,7 +72,7 @@ const TaskBoard = ({ tasks, currentDate }) => {
     let done = tasks.filter((data) => data.status === "Done");
     let todo = tasks.filter((data) => data.status === "To Do");
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault()
 
         const addTask = {
@@ -77,6 +84,9 @@ const TaskBoard = ({ tasks, currentDate }) => {
         }
         setTaskTitle('')
         dispatch(updateTasks([...state.tasks, addTask]));
+        const userRef = doc(db, 'users', email)
+
+        await updateDoc(userRef, { tasks: [...state.tasks, addTask] })
     }
 
     return (

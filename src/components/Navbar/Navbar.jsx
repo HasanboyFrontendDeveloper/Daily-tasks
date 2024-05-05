@@ -1,16 +1,14 @@
 import { Button } from "@material-tailwind/react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { signOut } from "../../slice/auth";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/config";
 
-const Navbar = () => {
-  const { isLoggedIn } = useSelector(state => state.auth)
-  const dispatch = useDispatch()
+const Navbar = ({isLoggedIn}) => {
   const navigate = useNavigate()
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
     navigate('/welcome')
-    dispatch(signOut())
+    await signOut(auth)
   }
   return (
     <div className="border-b-2">

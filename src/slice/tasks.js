@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isLoading: false,
+  isLoading: true,
+  user: {},
   tasks: [],
   error: null,
 };
@@ -14,7 +15,7 @@ export const tasksSlice = createSlice({
       state.isLoading = true;
     },
     getTasksSuccess: (state, action) => {
-      state.isLoading = true;
+      state.isLoading = false;
       state.tasks = action.payload;
     },
     getTasksFailure: (state, action) => {
@@ -23,11 +24,14 @@ export const tasksSlice = createSlice({
     },
     updateTasks: (state,  action) => {
         state.tasks = action.payload
+    },
+    getUser: (state, action) => {
+      state.user = action.payload;
     }
   },
 });
 
-export const { getTasksSuccess, getTasksStart, getTasksFailure, updateTasks } =
+export const { getTasksSuccess, getTasksStart, getTasksFailure, updateTasks, getUser } =
   tasksSlice.actions;
 
 export default tasksSlice.reducer;

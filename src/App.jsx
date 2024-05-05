@@ -1,45 +1,60 @@
-import { DashBoard, Login, Main, Navbar, Register } from "./components";
+import { DashBoard, Loader, Login, Main, Navbar, Register } from "./components";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "./firebase/config";
 import { useDispatch, useSelector } from "react-redux";
-import { signUserSuccess } from "./slice/auth";
-import AuthServise from "./service/auth";
-import { getItem } from "./helpers/localstorage";
-import { useEffect } from "react";
+import { getTasksFailure, getTasksStart, getTasksSuccess, getUser } from "./slice/tasks";
+import { doc, getDoc } from "firebase/firestore";
+
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  const { isLoggedIn } = useSelector(state => state.auth)
-
-  const dispatch = useDispatch();
-  const getUser = async () => {
-    try {
-      const response = await AuthServise.getUser();
-      dispatch(signUserSuccess(response));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-
-
+  const { isLoading } = useSelector(state => state.tasks)
 
   useEffect(() => {
-    const token = getItem("token");
-    if (token && token !== "undefined") {
-      getUser();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedIn(true)
+        getUserData()
+      } else {
+        setIsLoggedIn(false)
+      }
+    })
+  }, [auth])
+
+  const dispatch = useDispatch()
+
+
+
+  const getUserData = async () => {
+    const currentEmail = auth?.currentUser?.email
+    const userRef = doc(db, 'users', currentEmail)
+    dispatch(getTasksStart())
+    try {
+      const data = await getDoc(userRef).then(res => res.data())
+      dispatch(getUser({ username: data.username, email: data.email }))
+      dispatch(getTasksSuccess(data.tasks))
+
+    } catch (error) {
+      dispatch(getTasksFailure(error.message))
     }
-  }, []);
+  }
 
 
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route path="/welcome" element={isLoggedIn ? <Navigate to={'/'} /> : <Main />} />
-        <Route path="/login" element={isLoggedIn ? <Navigate to={'/'} /> : <Login />} />
-        <Route path="/register" element={isLoggedIn ? <Navigate to={'/'} /> : <Register />} />
-        <Route path='/' element={isLoggedIn ? <DashBoard /> : <Navigate to={'/welcome'} />} />
-      </Routes>
+      {isLoading ? <Loader /> :
+        <>
+          <Navbar isLoggedIn={isLoggedIn} />
+          <Routes>
+            <Route path="/welcome" element={isLoggedIn ? <Navigate to={'/'} /> : <Main />} />
+            <Route path="/login" element={isLoggedIn ? <Navigate to={'/'} /> : <Login />} />
+            <Route path="/register" element={isLoggedIn ? <Navigate to={'/'} /> : <Register />} />
+            <Route path='/' element={isLoggedIn ? <DashBoard /> : <Navigate to={'/welcome'} />} />
+          </Routes></>
+      }
     </>
   );
 };
